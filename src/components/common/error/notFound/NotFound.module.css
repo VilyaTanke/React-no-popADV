@@ -1,0 +1,11 @@
+
+
+.not__found__container{
+    height: 300px;
+    width: 300px;
+    margin: 100px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+}

@@ -1,0 +1,25 @@
+.confirm__container{
+    
+    background-color: rgb(95, 193, 206);
+    color: rgb(0, 0, 0);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    
+    margin:auto;
+    border-radius: 20px;
+    margin-top: 10px;
+}
+
+.confirm__button__container{
+    min-width: 300px;
+    height: 50px;
+    display: flex;
+    
+    align-items: center;
+    justify-content: space-evenly;
+    margin: 0px;
+    
+}
+

@@ -1,0 +1,18 @@
+.model__sale, .model__name, .model__price, .model__tags{
+    font-size: 30px;
+}
+
+
+.model__img{
+    display:flex;
+    margin:auto;
+    max-width: 95%;
+    height: 300px;
+    border: 2px rgb(17,14,14) solid;
+    border-radius: 20px;
+    background-color: whitesmoke;
+    justify-content: center;
+    overflow: hidden;
+}
+
+

@@ -1,0 +1,57 @@
+.loginPage {
+  display: block;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 40px;
+  max-width: 600px;
+  padding: 0 15px;
+  width: 45%;
+}
+
+.loginPage-title {
+  align-items: center;
+  display: flex;
+  height: 64px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+  .loginPage__form{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    background-color: rgb(95, 193, 206);
+    border-radius: 20px;
+    height: 300px;
+  }
+span {
+  width: 300px;
+}
+  
+  .loginForm__field {
+    padding: 10px 0;
+    width: 150px;
+  }
+  
+  .loginForm__submit {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .loginForm-field {
+    padding: 10px 0;
+  }
+  
+
+  .footer {
+    bottom: 0px;
+    text-align: center;
+    height: 30px;
+    margin-top: 20px;
+    color: rgb(0, 0, 0);
+    background-color: rgb(99, 255, 234);
+}
+
+
