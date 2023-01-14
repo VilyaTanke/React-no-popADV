@@ -6,9 +6,9 @@ import * as auth from '../components/auth/service';
 import * as ads from '../components/ads/service';
 
 const reducer = combineReducers(reducers);
-const middlewares = [thunk.withExtraArgument({api: {auth, ads}})]
 
-export default function configureStore(preloadedState) {
+export default function configureStore(preloadedState, {router}) {
+  const middlewares = [thunk.withExtraArgument({api: {auth, ads}, router})]
   const store = createStore(reducer, preloadedState, composeWithDevTools(applyMiddleware(...middlewares)));
 
   return store;

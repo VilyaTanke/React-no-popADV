@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
 import FormField from '../common/formField/FormField.js';
 import Button from '../common/Button.js';
-import { createAd, getTags } from './service.js';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
-import { useNavigate } from 'react-router-dom';
 import Spinner from '../common/spinner/Spinner.js';
 import styles from './NewAdPage.module.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { getListTags } from '../../store/selectors.js';
-import { tagsLoad } from '../../store/actions.js';
+import { getListTags, getUi } from '../../store/selectors.js';
+import { tagsLoad, createAd, uiResetError } from '../../store/actions.js';
 
 const NewAdPage = () => {
   const [name, setName] = useState('');
@@ -16,22 +14,10 @@ const NewAdPage = () => {
   const [price, setPrice] = useState('');
   const [tags, setTags] = useState([]);
   const [photo, setPhoto] = useState(null);
-  const [error, setError] = useState(null);
-  const [isFetching, setIsFetching] = useState(false);
+  const {error, isFetching} = useSelector(getUi)
   const listTags = useSelector(getListTags)
   const dispatch = useDispatch()
-  const navigate = useNavigate();
-
-  const getNewTags = async () => {
-    if(listTags.length < 1){
-      try {
-        const newTags = await getTags();
-        dispatch(tagsLoad(newTags));
-      } catch (error) {
-        setError(error);
-      };
-    };
-    };
+ 
 
   const handleChangeName = (event) => setName(event.target.value);
   const handleChangeSale = (event) => setSale(JSON.parse(event.target.value));
@@ -48,7 +34,7 @@ const NewAdPage = () => {
 
   const isButtonEnabled = () => name && price && tags.length > 0;
 
-  const resetError = () => setError(null);
+  const resetError = () => dispatch(uiResetError());
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -58,22 +44,17 @@ const NewAdPage = () => {
     formData.append('price', price);
     photo && formData.append('photo', photo);
     formData.append('tags', tags);
-    resetError();
-    setIsFetching(true);
-    try {
-      const createNewAd = await createAd(formData);
-      const newAd = createNewAd.id;
+    
+    dispatch(createAd(formData))
 
-      navigate(`/ads/${newAd}`);
-    } catch (err) {
-      setError(err);
-    }
-    setIsFetching(false);
   };
 
   useEffect(() => {
+    const getNewTags = () => {
+      dispatch(tagsLoad())
+      };
     getNewTags();
-  }, );
+  }, [dispatch]);
 
   return (
     <div className={styles.newAdPage__container}>
