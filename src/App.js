@@ -8,10 +8,13 @@ import AdsPage from './components/ads/AdsPage.js';
 import RequireAuth from './components/auth/RequireAuth.js';
 import NotFound from './components/common/error/notFound/NotFound.js';
 import Main from './components/layout/Main.js';
-import { useAuthContext } from './components/auth/Context.js';
+import { useSelector } from 'react-redux';
+import { getIsLogged } from './store/selectors.js';
 
 function App() {
-  const { isLogged, handleLogin, titleApp } = useAuthContext();
+  const titleApp = 'React-no-pop2'
+  
+  const isLogged = useSelector(getIsLogged)
 
   return (
     <div className='app'>
@@ -20,7 +23,7 @@ function App() {
           path='/login'
           element={
             !isLogged ? (
-              <LoginPage titleApp={titleApp} onLogin={handleLogin} />
+              <LoginPage titleApp={titleApp} />
             ) : (
               <Navigate to='/ads' />
             )
@@ -31,7 +34,7 @@ function App() {
           path='/ads'
           element={
             <RequireAuth>
-              <Layout />
+              <Layout titleApp={titleApp}/>
             </RequireAuth>
           }
         >

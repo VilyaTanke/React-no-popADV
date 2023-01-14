@@ -4,7 +4,6 @@ import BurgerMenu from '../common/burgerMenu/BurgerMenu.js';
 import styles from './styles/Header.module.css';
 import Confirm from '../common/confirm_element/Confirm.js';
 import { useState } from 'react';
-import { logout } from '../auth/service.js';
 import { useDispatch } from 'react-redux';
 import { authLogout } from '../../store/actions.js';
 
@@ -18,10 +17,7 @@ const Header = ({titleApp}) => {
 
   const message = 'desea cerrar sesión?';
 
-  const handleLogout = () => {
-    logout();
-    dispatch(authLogout());
-  };
+  const handleLogout = () => dispatch(authLogout());
 
   return (
     <header className={styles.header__main}>

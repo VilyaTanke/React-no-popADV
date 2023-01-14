@@ -8,7 +8,7 @@ import Spinner from '../common/spinner/Spinner.js';
 import styles from './NewAdPage.module.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { getListTags } from '../../store/selectors.js';
-import { tagsLoaded } from '../../store/actions.js';
+import { tagsLoad } from '../../store/actions.js';
 
 const NewAdPage = () => {
   const [name, setName] = useState('');
@@ -26,7 +26,7 @@ const NewAdPage = () => {
     if(listTags.length < 1){
       try {
         const newTags = await getTags();
-        dispatch(tagsLoaded(newTags));
+        dispatch(tagsLoad(newTags));
       } catch (error) {
         setError(error);
       };

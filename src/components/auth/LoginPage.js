@@ -35,8 +35,8 @@ const LoginPage = ({titleApp}) => {
 
   return (
     <div className="loginPage">
-    <h1 className="loginPage-title">
         <Icon width="100" height="100"/>
+    <h1 className="loginPage-title">
         {'Bienvenido a'} <br />
         {`${titleApp}`}
       </h1>
