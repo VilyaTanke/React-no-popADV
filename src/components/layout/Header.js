@@ -1,12 +1,15 @@
+
+import { ReactComponent as Icon } from '../../assets/LOGOReactNoPop.svg';
 import BurgerMenu from '../common/burgerMenu/BurgerMenu.js';
 import styles from './styles/Header.module.css';
 import Confirm from '../common/confirm_element/Confirm.js';
 import { useState } from 'react';
-import { useAuthContext } from '../auth/Context.js';
-import { ReactComponent as Icon } from '../../assets/LOGOReactNoPop.svg';
+import { logout } from '../auth/service.js';
+import { useDispatch } from 'react-redux';
+import { authLogout } from '../../store/actions.js';
 
-const Header = () => {
-  const { titleApp, handleLogout } = useAuthContext();
+const Header = ({titleApp}) => {
+  const  dispatch  = useDispatch()
   const [confirm, setConfirm] = useState(false);
 
   const handleConfirm = () => setConfirm(true);
@@ -14,6 +17,11 @@ const Header = () => {
   const notConfirm = () => setConfirm(false);
 
   const message = 'desea cerrar sesión?';
+
+  const handleLogout = () => {
+    logout();
+    dispatch(authLogout());
+  };
 
   return (
     <header className={styles.header__main}>
