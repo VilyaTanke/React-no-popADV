@@ -71,8 +71,8 @@ const FilterAds = ({getFilters,listTags}) => {
       {active && (
         <form className={styles.filter__form}>
           <fieldset>
-            <legend>por venta o compra:</legend>
-            <label htmlFor='sale'>todos</label>
+            <legend>Por Venta o Compra:</legend>
+            <label htmlFor='sale'>Todos</label>
             <input
               type='radio'
               name='sale'

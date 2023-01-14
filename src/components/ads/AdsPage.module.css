@@ -4,7 +4,7 @@
     grid-template-columns: repeat(5, 1fr);
     grid-gap: 15px;
     padding: 1.5rem;
-    background-color: whitesmoke;
+    background-color: rgba(223, 199, 243, 0.39);
 }
 
 .ad__container {
