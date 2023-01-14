@@ -6,6 +6,9 @@ import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import { useNavigate } from 'react-router-dom';
 import Spinner from '../common/spinner/Spinner.js';
 import styles from './NewAdPage.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { getListTags } from '../../store/selectors.js';
+import { tagsLoaded } from '../../store/actions.js';
 
 const NewAdPage = () => {
   const [name, setName] = useState('');
@@ -15,17 +18,20 @@ const NewAdPage = () => {
   const [photo, setPhoto] = useState(null);
   const [error, setError] = useState(null);
   const [isFetching, setIsFetching] = useState(false);
-  const [listTags, setListTags] = useState([]);
+  const listTags = useSelector(getListTags)
+  const dispatch = useDispatch()
   const navigate = useNavigate();
 
-  const getListTags = async () => {
-    try {
-      const listTags = await getTags();
-      setListTags(listTags);
-    } catch (error) {
-      setError(error);
-    }
-  };
+  const getNewTags = async () => {
+    if(listTags.length < 1){
+      try {
+        const newTags = await getTags();
+        dispatch(tagsLoaded(newTags));
+      } catch (error) {
+        setError(error);
+      };
+    };
+    };
 
   const handleChangeName = (event) => setName(event.target.value);
   const handleChangeSale = (event) => setSale(JSON.parse(event.target.value));
@@ -66,8 +72,8 @@ const NewAdPage = () => {
   };
 
   useEffect(() => {
-    getListTags();
-  }, []);
+    getNewTags();
+  }, );
 
   return (
     <div className={styles.newAdPage__container}>

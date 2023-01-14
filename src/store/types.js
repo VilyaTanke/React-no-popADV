@@ -1,5 +1,12 @@
-export const AUTH_LOGIN = 'AUTH_LOGIN';
+export const AUTH_LOGIN_SUCCES = 'AUTH_LOGIN_SUCCES';
+export const AUTH_LOGIN_REQUEST = 'AUTH_LOGIN_REQUEST';
+export const AUTH_LOGIN_FAILURE = 'AUTH_LOGIN_FAILURE';
+
 export const AUTH_LOGOUT = 'AUTH_LOGOUT';
 
 export const ADS_LOADED = 'ADS_LOADED';
 export const ADS_CREATED = 'ADS_CREATED';
+
+export const TAGS_LOADED = 'TAGS_LOADED';
+
+export const UI_RESET_ERROR = 'UI_RESET_ERROR';

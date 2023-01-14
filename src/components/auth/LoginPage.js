@@ -7,39 +7,37 @@ import { login } from './service.js';
 import storage from '../../utils/storage';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import { ReactComponent as Icon } from '../../assets/LOGOReactNoPop.svg';
-import { useDispatch } from 'react-redux';
-import { authLogin } from '../../store/actions';
-
+import { useDispatch, useSelector } from 'react-redux';
+import {  authLoginFailure, authLoginRequest, authLoginSucces, uiResetError } from '../../store/actions';
+import { getUi } from '../../store/selectors';
 
 const LoginPage = ({titleApp}) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [check, setCheck] = useState(false);
-  const [error, setError] = useState(null);
-  const [isFetching, setIsFetching] = useState(false);
+  const {isFetching, error} = useSelector(getUi)
 
   const handleChangeEMail = (event) => setEmail(event.target.value);
   const handleChangePassword = (event) => setPassword(event.target.value);
 
   const handleChangeChecked = (event) => setCheck(event.target.checked);
 
-  const resetError = () => setError(null);
+  const resetError = () => dispatch(uiResetError())
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    dispatch(authLoginRequest())
     try {
-      resetError();
-      setIsFetching(true);
       const accesToken = await login({ email, password });
 
-      dispatch(authLogin());
+      dispatch(authLoginSucces());
 
       check && storage.set('auth', accesToken);
     } catch (err) {
-      setError(err);
+      dispatch(authLoginFailure(err))
     }
-    setIsFetching(false);
+    
   };
   const isEnabledButton = () => email && password && !isFetching;
 

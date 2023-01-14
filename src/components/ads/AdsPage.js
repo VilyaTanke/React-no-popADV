@@ -7,26 +7,17 @@ import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import AdModel from './ad_model/AdModel.js';
 import FilterAds, { filterConfig } from '../common/filter_ads/FilterAds.js';
 import storage from '../../utils/storage';
-const AdsPage = () => {
-  const [ads, setAds] = useState([]);
+import { connect } from 'react-redux';
+import {adsLoaded, tagsLoaded} from '../../store/actions'
+
+const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags}) => {
   const [filters, setFilters] = useState(storage.get('filter') || filterConfig);
-  const [listTags, setListTags] = useState([]);
+ 
   const [charge, setCharge] = useState(false);
   const [confirm, setConfirm] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const getListAds = async () => {
-    try {
-      const listAds = await getAds();
-      const listTags = await getTags();
-      setAds(listAds);
-      setListTags(listTags);
-      setCharge(true);
-    } catch (err) {
-      setError(err);
-    }
-  };
 
   const getFilters = (filters) => {
     setFilters(filters);
@@ -50,9 +41,21 @@ const AdsPage = () => {
   };
 
   useEffect(() => {
-    !charge && getListAds();
+    const getListAds = async () => {
+      try {
+        const listAds = await getAds();
+        const listTags = await getTags();
+        onAdsLoaded(listAds);
+        onTagsLoaded(listTags);
+        setCharge(true);
+      } catch (err) {
+        setError(err);
+      }
+    };
+    !charge && !ads.length && !tags.length && getListAds();
     getFilters(filters);
-  }, [charge, filters]);
+  }, [charge, filters,onAdsLoaded,onTagsLoaded, ads, tags]);
+
 
   const filterAds = (ads, filter) => {
     const adverts = ads
@@ -87,7 +90,7 @@ const AdsPage = () => {
           {message()}
         </Confirm>
       )}
-      <FilterAds listTags={listTags} getFilters={getFilters} />
+      <FilterAds listTags={tags} getFilters={getFilters} />
       {filteredAds.map((ad) => (
         <div key={ad.id} className={styles.ad__container}>
           <Link className={styles.ad__link} to={`/ads/${ad.id}`}>
@@ -100,4 +103,16 @@ const AdsPage = () => {
   );
 };
 
-export default AdsPage;
+const mapStateToProps = (state, ownProps) => ({
+  ads: state.ads,
+  tags: state.tags
+});
+
+const mapDispatchToProps = {
+  onAdsLoaded: adsLoaded,
+  onTagsLoaded: tagsLoaded
+};
+
+const connectedAdsPage = connect(mapStateToProps, mapDispatchToProps)(AdsPage)
+
+export default connectedAdsPage;
