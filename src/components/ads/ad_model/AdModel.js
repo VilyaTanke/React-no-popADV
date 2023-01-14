@@ -4,7 +4,7 @@ import styles from './AdModel.module.css'
 const AdModel = ({ ad }) => {
   return (
     <Fragment>
-      <h2 className={styles.model__sale}>{ad.sale ? 'For Sale' : 'Wanted'}</h2>
+      <h2 className={styles.model__sale}>{ad.sale ? 'Vende' : 'Compra'}</h2>
       <h3 className={styles.model__name}>{ad.name}</h3>
       <div className={styles.model__img}>
         <img
@@ -14,7 +14,7 @@ const AdModel = ({ ad }) => {
           alt='Foto'
         />
       </div>
-      <h3 className={styles.model__price}>{ad.sale ? `Price : ${ad.price}` : `Max price : ${ad.price}`}</h3>
+      <h3 className={styles.model__price}>{ad.sale ? `Precio : ${ad.price}€` : `Pago maximo : ${ad.price}€`}</h3>
       <h3 className={styles.model__tags}>TAGS</h3>
       <p>
         {ad.tags && ad.tags.map((tag) => <span key={tag}>{` -${tag}- `}</span>)}
