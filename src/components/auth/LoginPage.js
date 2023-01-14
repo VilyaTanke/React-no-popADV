@@ -3,12 +3,12 @@ import styles from './LoginPage.module.css';
 import Button from '../common/Button.js';
 import CheckBox from '../common/CheckBox.js';
 import FormField from '../common/formField/FormField.js';
-import { login } from './service.js';
+
 import storage from '../../utils/storage';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import { ReactComponent as Icon } from '../../assets/LOGOReactNoPop.svg';
 import { useDispatch, useSelector } from 'react-redux';
-import {  authLoginFailure, authLoginRequest, authLoginSucces, uiResetError } from '../../store/actions';
+import {  authLogin, uiResetError } from '../../store/actions';
 import { getUi } from '../../store/selectors';
 
 const LoginPage = ({titleApp}) => {
@@ -16,27 +16,19 @@ const LoginPage = ({titleApp}) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [check, setCheck] = useState(false);
-  const {isFetching, error} = useSelector(getUi)
+  const {isFetching, error} = useSelector(getUi);
 
   const handleChangeEMail = (event) => setEmail(event.target.value);
   const handleChangePassword = (event) => setPassword(event.target.value);
 
   const handleChangeChecked = (event) => setCheck(event.target.checked);
 
-  const resetError = () => dispatch(uiResetError())
+  const resetError = () => dispatch(uiResetError());
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    dispatch(authLoginRequest())
-    try {
-      const accesToken = await login({ email, password });
-
-      dispatch(authLoginSucces());
-
-      check && storage.set('auth', accesToken);
-    } catch (err) {
-      dispatch(authLoginFailure(err))
-    }
+    const accessToken = await dispatch(authLogin({email, password}));
+    check && storage.set('auth', accessToken);
     
   };
   const isEnabledButton = () => email && password && !isFetching;

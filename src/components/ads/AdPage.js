@@ -1,62 +1,63 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getAdId, deleteAd } from './service.js';
+import { deleteAd } from './service.js';
 import Spinner from '../common/spinner/Spinner.js';
 import styles from './AdsPage.module.css';
 import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
 import Button from '../common/Button.js';
 import Confirm from '../common/confirm_element/Confirm.js';
 import AdModel from './ad_model/AdModel.js';
-import { useSelector } from 'react-redux';
-import { getAdById } from '../../store/selectors.js';
+import { useSelector, useDispatch } from 'react-redux';
+import { getAdById, getUi } from '../../store/selectors.js';
+import { adLoad, uiResetError } from '../../store/actions.js';
+
 const AdPage = () => {
   const { id } = useParams();
+  const dispatch = useDispatch()
 
   const ad = useSelector(getAdById(id));
   console.log(ad)
-  const [error, setError] = useState(null);
-  const [isFetching, setIsFetching] = useState(false);
+  const {error, isFetching} = useSelector(getUi)
   const [isDeleted, setIsDeleted] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const navigate = useNavigate();
 
   const handleConfirm = () => setConfirm(true);
 
-  const deletedAd = async () => {
-    try {
-      setIsFetching(true);
+  // const deletedAd = async () => {
+  //   try {
+  //     setIsFetching(true);
 
-      await deleteAd(id);
+  //     await deleteAd(id);
 
-      setIsDeleted(true);
+  //     setIsDeleted(true);
 
-      setIsFetching(false)
+  //     setIsFetching(false)
 
-      setTimeout(() => {
-        navigate('/');
-      }, 1000);
-    } catch (err) {
-      setError(err);
-    }
-  };
+  //     setTimeout(() => {
+  //       navigate('/');
+  //     }, 1000);
+  //   } catch (err) {
+  //     setError(err);
+  //   }
+  // };
 
-  const resetError = () => setError(null);
+  const resetError = () => dispatch(uiResetError());
 
-  // useEffect(() => {
-  //   const getAd = async (id) => {
-  //     try {
-  //       resetError();
-  //       const data = await getAdId(id);
-  //       return data;
-  //     } catch (err) {
-  //       if (err.status === 404) {
-  //         navigate('404');
-  //       }
-  //       setError(err);
-  //     }
-  //   };
-  //   getAd(id);
-  // }, [id, navigate]);
+  useEffect(() => {
+    
+    const getAd = async (id) => {
+      try {
+        await dispatch(adLoad(id))
+      } catch (err) {
+        if (err.status === 404) {
+          navigate('404');
+        }
+
+      }
+    };
+    getAd(id);
+  }, [id, navigate, dispatch]);
 
   return (
     <div className={styles.ads__page}>
@@ -72,7 +73,7 @@ const AdPage = () => {
           {confirm && !isDeleted && (
             <Confirm
               children='Are you sure for delete ad?'
-              confirm={deletedAd}
+              /* confirm={deletedAd} */
               notConfirm={() => setConfirm(false)}
             ></Confirm>
           )}
