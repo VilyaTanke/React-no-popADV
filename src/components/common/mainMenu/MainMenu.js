@@ -1,27 +1,17 @@
-import styles from "./BurgerMenu.module.css";
-import burguerPic from "../../../assets/menu.svg";
+import styles from "./MainMenu.module.css";
 import Button from "../Button.js";
 import { Link } from "react-router-dom";
 import { useRef } from "react";
 
-const BurgerMenu = ({ onLogout }) => {
+const MainMenu = ({ onLogout }) => {
   const checkBoxElement = useRef();
   const offCheck = () => {
     checkBoxElement.current.checked = false;
   };
 
   return (
-    <nav className={styles.burger__menu__wrapper}>
-      <label htmlFor="menu" className={styles.burger__menu__label}>
-        <img src={burguerPic} className={styles.burger__menu__img} alt="Menu" />
-      </label>
-      <input
-        ref={checkBoxElement}
-        type="checkbox"
-        id="menu"
-        className={styles.burger__menu__input}
-      />
-      <div className={styles.burger__menu__list} onClick={offCheck}>
+    <nav className={styles.main__menu__wrapper}>
+      <div className={styles.main__menu__list} onClick={offCheck}>
         <Button
           as={Link}
           to="/"
@@ -51,4 +41,4 @@ const BurgerMenu = ({ onLogout }) => {
   );
 };
 
-export default BurgerMenu;
+export default MainMenu;

@@ -28,10 +28,10 @@ function App() {
               <Layout titleApp={titleApp} />{" "}
             </RequireAuth>
           }>
-          <Route index element={<Main title="Home" children={<AdsPage />} />} />
+          <Route index element={<Main title="Inicio - Pagina de productos" children={<AdsPage />} />} />
           <Route
             path=":id"
-            element={<Main title="Advertisment Detail" children={<AdPage />} />}
+            element={<Main title="Click en inicio para volver a todos los productos" children={<AdPage />} />}
           />
           ;
           <Route path="new" element={<Main children={<NewAdPage />} />} />;{" "}

@@ -20,7 +20,9 @@ import {
   TAGS_LOADED_REQUEST,
   TAGS_LOADED_SUCCES,
   UI_CONFIRM,
+  UI_NOTIFICATION,
   UI_NOT_CONFIRM,
+  UI_NOT_NOTIFICATION,
   UI_RESET_ERROR,
 } from "./types";
 
@@ -160,6 +162,15 @@ export const tagsLoad = () => {
   };
 };
 
+export const uiNotification = (message) => ({
+  type: UI_NOTIFICATION,
+  payload: message,
+});
+
+export const uiNotNotification = () => ({
+  type: UI_NOT_NOTIFICATION,
+});
+
 export const createAdRequest = () => ({
   type: CREATED_AD_REQUEST,
 });
@@ -205,13 +216,15 @@ export const deleteAdFailure = (error) => ({
 });
 
 export const deleteAd = (adId) => {
-  return async function (dispatch, getState, { api, router }) {
+  return async function (dispatch, getState, { api, router, notifications }) {
     try {
       dispatch(deleteAdRequest());
       await api.ads.deleteAd(adId);
       dispatch(deleteAdSucces());
+      dispatch(uiNotification(notifications.messageDeletedAd));
       setTimeout(() => {
         router.navigate("/");
+        dispatch(uiNotNotification());
       }, 1000);
     } catch (error) {
       dispatch(deleteAdFailure(error));
@@ -224,10 +237,24 @@ export const uiResetError = () => ({
   type: UI_RESET_ERROR,
 });
 
-export const uiConfirm = () => ({
+export const uiConfirm = (params) => ({
   type: UI_CONFIRM,
+  payload: params,
 });
 
 export const uiNotConfirm = () => ({
   type: UI_NOT_CONFIRM,
 });
+
+export const uiConfirmed = () => {
+  return function (dispatch, getState, { api, router, notifications }) {
+    const { message, id } = getState().ui.confirm;
+    if (message === notifications.messageLogout) {
+      dispatch(authLogout());
+    }
+    if (message === notifications.messageDeleteAd) {
+      dispatch(deleteAd(id));
+    }
+    dispatch(uiNotConfirm());
+  };
+};

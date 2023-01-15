@@ -28,3 +28,6 @@ export const UI_RESET_ERROR = "UI_RESET_ERROR";
 
 export const UI_CONFIRM = 'UI_CONFIRM';
 export const UI_NOT_CONFIRM = 'UI_NOT_CONFIRM';
+
+export const UI_NOTIFICATION = 'UI_NOTIFICATION';
+export const UI_NOT_NOTIFICATION = 'UI_NOT_NOTIFICATION';
