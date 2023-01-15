@@ -1,4 +1,13 @@
-# Getting Started with Create React App
+# PRACTICA - NODE-JS
+
+
+
+**`Angel Magallanes`**
+
+
+
+[![GitHub version](https://badge.fury.io/gh/VilyaTanke%2FPractica-React-Redux.svg)](https://badge.fury.io/gh/VilyaTanke%2FPractica-React-Redux)    [![HTML-dev](https://img.shields.io/badge/REDUX-%3C-------------blue)](https://badge.fury.io/gh/VilyaTanke%2FPractica-React-Redux) [![HTML-dev](https://img.shields.io/badge/~~~~%3E-CSS-red)](https://badge.fury.io/gh/VilyaTanke%2FPractica-React-Redux)
+ [![HTML-dev](https://img.shields.io/badge/~~~~~~>-REACT-blue)](https://badge.fury.io/gh/VilyaTanke%2FPractica-React-Redux) [![HTML-dev](https://img.shields.io/badge/~~~~%3E-JavaScript-yellow)](https://img.shields.io/badge/~~~~%3E-JavaScript-yellow)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
