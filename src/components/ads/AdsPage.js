@@ -1,33 +1,37 @@
-import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import Confirm from '../common/confirm_element/Confirm.js';
-import styles from './AdsPage.module.css';
-import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
-import AdModel from './ad_model/AdModel.js';
-import FilterAds, { filterConfig } from '../common/filter_ads/FilterAds.js';
-import storage from '../../utils/storage';
-import { connect } from 'react-redux';
-import {adsLoad, tagsLoad, uiResetError} from '../../store/actions'
-import { getListAds, getListTags, getUiError } from '../../store/selectors.js';
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import Confirm from "../common/confirm_element/Confirm.js";
+import styles from "./AdsPage.module.css";
+import ErrorDisplay from "../common/error/errorDisplay/ErrorDisplay.js";
+import AdModel from "./ad_model/AdModel.js";
+import FilterAds, { filterConfig } from "../common/filter_ads/FilterAds.js";
+import storage from "../../utils/storage";
+import { connect } from "react-redux";
+import { adsLoad, tagsLoad, uiResetError } from "../../store/actions";
+import { getListAds, getListTags, getUiError } from "../../store/selectors.js";
 
-const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...props}) => {
-  const [filters, setFilters] = useState(storage.get('filter') || filterConfig);
- 
-  const [confirm, setConfirm] = useState(true);
+const AdsPage = ({
+  onAdsLoaded,
+  onTagsLoaded,
+  ads,
+  tags,
+  error,
+  uiResetError,
+  ...props
+}) => {
+  const [filters, setFilters] = useState(storage.get("filter") || filterConfig);
+
+  
   const navigate = useNavigate();
-
 
   const getFilters = (filters) => {
     setFilters(filters);
   };
 
-  const resetError = () => uiResetError()
+  const resetError = () => uiResetError();
 
-  const goToCreate = () => navigate('/ads/new');
-  const notConfirm = () => {
-    setConfirm(false);
-    navigate('/');
-  };
+  const goToCreate = () => navigate("/ads/new");
+  const notConfirm = () => navigate('/');
 
   const message = () => {
     return (
@@ -39,21 +43,20 @@ const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...p
   };
 
   useEffect(() => {
-    const getListAds =  () => {
-      onAdsLoaded();
+    const getListAds = () => {
       onTagsLoaded();
-  };
-  getListAds();
-  getFilters(filters);
-}, [filters,onAdsLoaded,onTagsLoaded]);
-
+      onAdsLoaded();
+    };
+    getListAds();
+    getFilters(filters);
+  }, [filters, onAdsLoaded, onTagsLoaded]);
 
   const filterAds = (ads, filter) => {
     const adverts = ads
       .filter((ad) =>
-        filter.sale === 'all'
+        filter.sale === "all"
           ? ad
-          : filter.sale === 'forSale'
+          : filter.sale === "forSale"
           ? ad.sale
           : !ad.sale
       )
@@ -76,7 +79,7 @@ const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...p
 
   return (
     <div className={styles.ads__page}>
-      {filteredAds.length < 1 && confirm && (
+      {filteredAds.length < 1 && (
         <Confirm confirm={goToCreate} notConfirm={notConfirm}>
           {message()}
         </Confirm>
@@ -97,15 +100,15 @@ const AdsPage = ({onAdsLoaded, onTagsLoaded, ads, tags, error,uiResetError, ...p
 const mapStateToProps = (state, ownProps) => ({
   ads: getListAds(state),
   tags: getListTags(state),
-  error: getUiError(state)
+  error: getUiError(state),
 });
 
 const mapDispatchToProps = {
   onAdsLoaded: adsLoad,
   onTagsLoaded: tagsLoad,
-  uiResetError: uiResetError
+  uiResetError: uiResetError,
 };
 
-const connectedAdsPage = connect(mapStateToProps, mapDispatchToProps)(AdsPage)
+const connectedAdsPage = connect(mapStateToProps, mapDispatchToProps)(AdsPage);
 
 export default connectedAdsPage;

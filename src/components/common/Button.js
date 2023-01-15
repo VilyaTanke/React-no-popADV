@@ -1,16 +1,16 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
-const accentColor = 'rgb(29, 161, 242)';
+const accentColor = "rgb(29, 161, 242)";
 
 const Button = styled.button`
   align-items: center;
-  background-color: ${props =>
-    props.variant === 'primary' ? accentColor : 'white'};
+  background-color: ${(props) =>
+    props.variant === "primary" ? accentColor : "white"};
   border-radius: 5px;
   border-style: solid;
   border-width: 4px;
   border-color: ${accentColor};
-  color: ${props => (props.variant === 'primary' ? 'white' : accentColor)};
+  color: ${(props) => (props.variant === "primary" ? "white" : accentColor)};
   cursor: pointer;
   display: inline-flex;
   margin-left: 95px;
@@ -22,16 +22,16 @@ const Button = styled.button`
   min-width: 72px;
   max-width: 150px;
   outline-style: none;
-  opacity: ${props => (props.disabled ? 0.5 : 1)};
+  opacity: ${(props) => (props.disabled ? 0.5 : 1)};
   padding: 0 30px;
-  pointer-events: ${props => (props.disabled ? 'none' : 'auto')};
+  pointer-events: ${(props) => (props.disabled ? "none" : "auto")};
   text-decoration: none;
   transition: background-color 0.2s;
   &:hover {
-    background-color: ${props =>
-      props.variant === 'primary'
-        ? 'rgb(26, 145, 218)'
-        : 'rgba(29, 161, 242, 0.1)'};
+    background-color: ${(props) =>
+      props.variant === "primary"
+        ? "rgb(26, 145, 218)"
+        : "rgba(29, 161, 242, 0.1)"};
   }
 `;
 

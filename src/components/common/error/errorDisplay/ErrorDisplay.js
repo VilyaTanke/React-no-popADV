@@ -1,4 +1,4 @@
-import styles from './ErrorDisplay.module.css';
+import styles from "./ErrorDisplay.module.css";
 
 const ErrorDisplay = ({ resetError, error }) => {
   return (

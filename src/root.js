@@ -1,5 +1,5 @@
-import { Provider } from 'react-redux';
-import { RouterProvider } from 'react-router-dom';
+import { Provider } from "react-redux";
+import { RouterProvider } from "react-router-dom";
 
 export default function Root({ store, router }) {
   return (
@@ -7,4 +7,4 @@ export default function Root({ store, router }) {
       <RouterProvider router={router} />
     </Provider>
   );
-};
+}

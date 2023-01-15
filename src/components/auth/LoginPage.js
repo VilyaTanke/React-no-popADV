@@ -1,22 +1,23 @@
-import { useState } from 'react';
-import styles from './LoginPage.module.css';
-import Button from '../common/Button.js';
-import CheckBox from '../common/CheckBox.js';
-import FormField from '../common/formField/FormField.js';
+import { useState, useEffect } from "react";
+import styles from "./LoginPage.module.css";
+import Button from "../common/Button.js";
+import CheckBox from "../common/CheckBox.js";
+import FormField from "../common/formField/FormField.js";
 
-import storage from '../../utils/storage';
-import ErrorDisplay from '../common/error/errorDisplay/ErrorDisplay.js';
-import { ReactComponent as Icon } from '../../assets/LOGOReactNoPop.svg';
-import { useDispatch, useSelector } from 'react-redux';
-import {  authLogin, uiResetError } from '../../store/actions';
-import { getUi } from '../../store/selectors';
+import storage from "../../utils/storage";
+import ErrorDisplay from "../common/error/errorDisplay/ErrorDisplay.js";
+import { ReactComponent as Icon } from "../../assets/LOGOReactNoPop.svg";
+import { useDispatch, useSelector } from "react-redux";
+import { authLogin, authLogout, uiResetError } from "../../store/actions";
+import { getUi, getIsLogged } from "../../store/selectors";
 
-const LoginPage = ({titleApp}) => {
+const LoginPage = ({ titleApp }) => {
   const dispatch = useDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [check, setCheck] = useState(false);
-  const {isFetching, error} = useSelector(getUi);
+  const { isFetching, error } = useSelector(getUi);
+  const isLogged = useSelector(getIsLogged);
 
   const handleChangeEMail = (event) => setEmail(event.target.value);
   const handleChangePassword = (event) => setPassword(event.target.value);
@@ -27,17 +28,20 @@ const LoginPage = ({titleApp}) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const accessToken = await dispatch(authLogin({email, password}));
-    check && storage.set('auth', accessToken);
-    
+    const accessToken = await dispatch(authLogin({ email, password }));
+    check && storage.set("auth", accessToken);
   };
   const isEnabledButton = () => email && password && !isFetching;
 
+  useEffect(() => {
+    isLogged && dispatch(authLogout());
+  }, [dispatch, isLogged]);
+
   return (
     <div className="loginPage">
-        <Icon width="100" height="100"/>
-    <h1 className="loginPage-title">
-        {'Bienvenido a'} <br />
+      <Icon width="100" height="100" />
+      <h1 className="loginPage-title">
+        {"Bienvenido a"} <br />
         {`${titleApp}`}
       </h1>
       <h4 className={styles.loginPage__title}>
@@ -45,34 +49,33 @@ const LoginPage = ({titleApp}) => {
       </h4>
       <form className={styles.loginPage__form} onSubmit={handleSubmit}>
         <FormField
-          type='text'
-          name='username'
-          label='eMail'
+          type="text"
+          name="username"
+          label="eMail"
           className="loginForm-field"
           onChange={handleChangeEMail}
           value={email}
         />
 
         <FormField
-          type='password'
-          name='password'
-          label='password'
+          type="password"
+          name="password"
+          label="password"
           className="loginForm-field"
           onChange={handleChangePassword}
           value={password}
         />
 
         <Button
-          type='submit'
+          type="submit"
           className={styles.loginForm__submit}
-          disabled={!isEnabledButton()}
-        >
+          disabled={!isEnabledButton()}>
           Log in
         </Button>
         <CheckBox
-          name='checklog'
-          type='checkbox'
-          label='Click para recordar usuario'
+          name="checklog"
+          type="checkbox"
+          label="Click para recordar usuario"
           onChange={handleChangeChecked}
           checked={check}
         />
